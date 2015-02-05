@@ -8,3 +8,4 @@ test
 test/bower_components/
 __ConfigTemp
 .DS_Store
+npm-debug.log

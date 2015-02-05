@@ -2,7 +2,7 @@
   "name": "evoflux",
   "version": "0.1.0",
   "description": "a flux architecture implement",
-  "main": "evoflux.js",
+  "main": "./src/evoflux.js",
   "dependencies": {
     "director": "^1.2.7",
     "es6-promise": "^2.0.1",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cgx9/evoflux"
+    "url": "https://github.com/cgx9/evoflux.git"
   },
   "keywords": [
     "flux",
