@@ -12,7 +12,7 @@ module.exports = Evoflux.createAction("demo",{
 ```
 this parameters "demo" is namespace and can ignore.
 
-store：
+## store：##
 ```javascript
 var Evoflux = require('evoflux');
 module.exports = Evoflux.createStore("demo",{
