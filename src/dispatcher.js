@@ -28,7 +28,7 @@ Dispatcher.prototype.dispatch = function(payload) {
     this.handlers.forEach(function(handler){
       if(!handler.isPending){
         handler.isPending = true;
-        handler.callback(this.pendingPayload);
+        handler.callback(payload);
         handler.isHandled = true;
       }
     })
