@@ -47,15 +47,17 @@ Store.prototype.__create__ = function(storeActions){
 }
 //重写on,emit,removeListener，事件自动动态增加modulename前缀，避免事件监听冲突。
 Store.prototype.__overrideEvent__ = function(eventEmit,methodPrefix){
-  var eventNmae = methodPrefix + event;
+  var eventName = function(e){
+    return methodPrefix + e;
+  };
   this.on = function(event,cb){    
-    eventEmit.prototype.on(eventNmae,cb);
+    eventEmit.prototype.on(eventName(event),cb);
   };
   this.emit = function(event){
-    eventEmit.prototype.emit(eventNmae);
+    eventEmit.prototype.emit(eventName(event));
   };
   this.off = this.removeListener = function(event,cb){
-    eventEmit.prototype.removeListener(eventNmae,cb);
+    eventEmit.prototype.removeListener(eventName(event),cb);
   };
 }
 
