@@ -4,7 +4,7 @@
 ```javascript
 npm install evoflux
 ```
-you must have browserify and it does not support amd.
+you must have browserify and it does not support amd.  
 需要使用browserify,目前暂不支持amd。
 
 # Demo
