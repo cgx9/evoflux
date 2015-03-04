@@ -1,17 +1,22 @@
 "use strict";
-var Router = require('director').Router();
-module.exports = function (routers) {
-  if(routers["init"] === undefined || routers["notfound"] === undefined){
-    throw new Error("init and nofound router must definded");
-  };
-  var notfoundRoute = routers["notfound"];
-  var initRoute = routers["init"];
+var DirectorRouter = require('director');//.Router();
+var isServer = !process.browser;
+var R = isServer ? DirectorRouter.http.Router : DirectorRouter.Router;
+
+var Router = function () {
+  this.init = "/";
+  this.notfound = "404";
+  //this.html5history = true
+};
+Router.prototype.__create__ = function(routers){ 
+
+  var notfoundRoute = routers["notfound"] || this.notfound;
+  var initRoute = routers["init"] || this.init;
   
   delete routers["notfound"];
   delete routers["init"];
-  for(var router in routers){
-    Router.on(router,routers[router]);
-  }
   
-  Router.configure({notfound: notfoundRoute}).init(initRoute);
+  return R(routers).configure({notfound: notfoundRoute}).init(initRoute);
 };
+
+module.exports = new Router();

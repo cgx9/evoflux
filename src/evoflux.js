@@ -20,9 +20,9 @@ Evoflux.prototype.createStore = function(moduleName,spec){
   return Store.__create__(spec);
 }
 
-Evoflux.prototype.createRoute = function(routerObj){
+Evoflux.prototype.createRouter = function(routerObj){
   
-  return new Router(routerObj);
+  return Router.__create__(routerObj);
 }
 
 module.exports = new Evoflux();
