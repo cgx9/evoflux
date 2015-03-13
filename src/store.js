@@ -19,7 +19,17 @@ Store.prototype.__create__ = function(storeActions){
     }
     if(storeMethod === "actions"){
       continue;
-    }    
+    }
+    if(storeMethod === "mixins"){
+      storeActions["mixins"].forEach(function(obj){
+        if(typeof obj === "function"){
+          assign(this, obj.prototype);
+        }else{
+          assign(this,obj);
+        }
+      }.bind(this))     
+      continue
+    }
     this[storeMethod] = storeActions[storeMethod];
   }//end for
   var methodPrefix = "";
