@@ -1,6 +1,7 @@
 "use strict";
 var Promise = require('es6-promise').Promise;
 var Dispatcher = require('./dispatcher');
+var assign = require('object-assign');
 /* Evoflux.createAction({
 *    add:function(data){
 *      return {
@@ -15,6 +16,16 @@ var Action = function(){
 };
 Action.prototype.__create__ = function(actions){
   for (var a in actions) {
+    if(a === "mixins"){
+      actions["mixins"].forEach(function(obj){
+        if(typeof obj === "function"){
+          assign(this, obj.prototype);
+        }else{
+          assign(this,obj);
+        }
+      }.bind(this))     
+      continue
+    }// add mixins support
     if(actions.hasOwnProperty(a)){
       this[a] = function(){
         Promise.resolve(actions[a].apply(this,arguments))//payload
