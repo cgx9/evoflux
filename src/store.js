@@ -71,4 +71,4 @@ Store.prototype.__overrideEvent__ = function(eventEmit,methodPrefix){
   };
 }
 
-module.exports = new Store();
+module.exports = Store;

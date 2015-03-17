@@ -6,18 +6,20 @@ var Evoflux = function(){};
 
 Evoflux.prototype.createAction = function(moduleName,spec){
   var spec = spec || moduleName;
+  var a = new Action();
   if(typeof moduleName === "string"){
-    Action.__moduleName__ = moduleName;
+    a.__moduleName__ = moduleName;
   }
-  return Action.__create__(spec);
+  return a.__create__(spec);
 }
 
 Evoflux.prototype.createStore = function(moduleName,spec){
   var spec = spec || moduleName;
+  var s = new Store();
   if(typeof moduleName === "string"){
-    Store.__moduleName__ = moduleName;
+    s.__moduleName__ = moduleName;
   }
-  return Store.__create__(spec);
+  return s.__create__(spec);
 }
 
 Evoflux.prototype.createRouter = function(routerObj){

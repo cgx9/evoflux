@@ -42,4 +42,4 @@ Action.prototype.__create__ = function(actions){
   }//end for
   return this;
 }
-module.exports = new Action();
+module.exports = Action;
