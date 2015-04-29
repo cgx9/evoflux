@@ -27,30 +27,42 @@ Action.prototype.__create__ = function(actions){
       continue
     }// add mixins support
     if(actions.hasOwnProperty(a)){
-      this[a] = function(){
-        Promise.resolve(actions[a].apply(this,arguments))//payload
-          .then(function (payload) {
-            return new Promise(function(resolve, reject){
-              if(!payload){
-                return reject();
-              }
-              if(!payload.actionType && !payload.action){
-                setTimeout(function(){throw new Error("action must have a actionType or action")},0);
-                return reject();
-              }
-              var action = payload.actionType || payload.action;
-              if(this.__moduleName__){
-                payload.action = this.__moduleName__ + '.'+ action;
-              }//增加action的namespace，避免一个文件同时访问多个store时的action命名冲突。例如：“todo.add”
-              Dispatcher.dispatch(payload);//发布事件
-              resolve();
-            }.bind(this));
+      this[a] = actions[a]
+      // function(){
+      //   Promise.resolve(actions[a].apply(this,arguments))//payload
+      //     .then(function (payload) {
+      //       console.log("this is action payload")
+      //       return new Promise(function(resolve, reject){
+      //         if(!payload){
+      //           return reject();
+      //         }
+      //         if(!payload.actionType && !payload.action){
+      //           setTimeout(function(){throw new Error("action must have a actionType or action")},0);
+      //           return reject();
+      //         }
+      //         var action = payload.actionType || payload.action;
+      //         if(this.__moduleName__){
+      //           payload.action = this.__moduleName__ + '.'+ action;
+      //         }//增加action的namespace，避免一个文件同时访问多个store时的action命名冲突。例如：“todo.add”
+      //         Dispatcher.dispatch(payload);//发布事件
+      //         resolve();
+      //       }.bind(this));
             
-          }.bind(this));
-      };
+      //     }.bind(this));
+      // };
       
     }
   }//end for
   return this;
 }
+Action.prototype.dispatch = function(payload) {
+  if(!payload.actionType && !payload.action){
+      throw new Error("action must have a actionType or action");
+    }
+    var action = payload.actionType || payload.action;
+    if(this.__moduleName__){
+      payload.action = this.__moduleName__ + '.'+ action;
+    }//增加action的namespace，避免一个文件同时访问多个store时的action命名冲突。例如：“todo.add”
+    Dispatcher.dispatch(payload);//发布事件
+};
 module.exports = Action;

@@ -45,10 +45,13 @@ view只需添加Store的监听，调用action的方法即可。
 var Evoflux = require('evoflux');
 module.exports = Evoflux.createAction("demo",{
   changeTitle:function(newTitle){
-    return {
-      action: "changeTitle",
-      data: newTitle
-    }
+    superagent.get("url")
+      .end(function(err,res){
+        this.dispatcher({
+          action: "changeTitle",
+          data: newTitle
+        })
+    }.bind(this))
   }
 })
 ```
