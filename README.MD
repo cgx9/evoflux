@@ -78,6 +78,15 @@ module.exports = Evoflux.createStore("demo",{
     }
   }
 })
+``` 
+当store需要监听其他store对应的的action时，给actions里的方法加命名空间。如： 
+```javascript
+actions:{
+    "otherNameSpace.changeTitle":function(data){
+      this.data.title = data.data;
+    }
+  }
 ```
+
 this parameters "demo" must be same as createAction; actions.demo_changeTitle name must be  same as action value for createAction.  
 第一个参数是作为命名空间使用，需要与createAction一致。store的actions里的方法对应createAction里的方法，方法名必须与createAction里方法里的action的值一致。当调用action的方法时，stores里actions下与它值一样名称的方法也会触发执行。
