@@ -49,8 +49,25 @@ Store.prototype.__create__ = function(storeActions){
     delete payload.action;
     delete payload.actionType;
     var args = payload;
-    this["actions"][action].call(this,args);
-    this.emit(this.changeEvent);
+    /*
+    * 需要payload的action与this的action一致，不在dispatcher中的循环做判断名称是否一样，是允许多个store监听同一个action。
+    * 只要某个store的action里的action名为：namepace.action:function(){}, 即可监听该action。
+    */
+    for(var storeAction in storeActions["actions"]){
+      //带namespace的，监听另一个store对应的action的。
+      if(storeAction.split('.').length>1){
+        if(action === storeAction){
+          this["actions"][action].call(this,args);
+          this.emit(this.changeEvent);
+        }
+      }else{
+        if(methodPrefix + storeAction === action){
+          this["actions"][action].call(this,args);
+          this.emit(this.changeEvent);
+        }
+      }
+    }
+    
   }.bind(this))
   this.__overrideEvent__(EventEmitter,methodPrefix);
   return this;
