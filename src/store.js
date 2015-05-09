@@ -77,10 +77,22 @@ Store.prototype.__overrideEvent__ = function(eventEmit,methodPrefix){
   var eventName = function(e){
     return methodPrefix + e;
   };
+  //防止重复绑定
   this.on = function(event,cb){    
+    for ( var i= this.events.length - 1;i>-1;i--) {  
+      if(event===this.events[i].event){
+        eventEmit.prototype.removeListener(eventName(event), this.events[i].cb); 
+        this.events.splice(i,1); 
+      }
+    }
+    this.events.push({
+      event: event,
+      cb: cb
+    });
     eventEmit.prototype.on(eventName(event),cb);
   };
   this.emit = function(event){
+    //todo：判断当前model的前后值是否一致
     eventEmit.prototype.emit(eventName(event));
   };
   this.off = this.removeListener = function(event,cb){
