@@ -60,7 +60,8 @@ Action.prototype.dispatch = function(payload) {
       throw new Error("action must have a actionType or action");
     }
     var action = payload.actionType || payload.action;
-    delete payload.action;
+    // delete payload.action;
+    payload.action ＝ action;
     delete payload.actionType;
     if(this.__moduleName__){
       payload.action = this.__moduleName__ + '.'+ action;

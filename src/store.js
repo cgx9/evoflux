@@ -46,9 +46,9 @@ Store.prototype.__create__ = function(storeActions){
   assign(this,EventEmitter.prototype);
 
   Dispatcher.register(function(payload){
-    var action = payload.action || payload.actionType;  
-    delete payload.action;
-    delete payload.actionType;
+    var action = payload.action;//在action已经把actionType处理了。
+    // delete payload.action;
+    // delete payload.actionType;
     var args = payload;
     /*
     * 需要payload的action与this的action一致，不在dispatcher中的循环做判断名称是否一样，是允许多个store监听同一个action。
