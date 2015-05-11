@@ -8,6 +8,7 @@ var Store = function () {
   this.__moduleName__ = "";
   this.changeEvent = "change";
   EventEmitter.defaultMaxListeners = 50;
+  this.events = [];
 }
 
 Store.prototype.__create__ = function(storeActions){ 
