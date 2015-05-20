@@ -17,9 +17,8 @@ Router.prototype.__create__ = function(routers){
   delete routers["init"];
   var routerInit = R(routers).configure({notfound: notfoundRoute})//;.init(initRoute);
   if(!isServer){
-    var parsed = queryString.parse(location.search);
     routerInit.query = function(key){
-      return parsed[key];
+      return queryString.parse(location.search)[key];
     }
   }
   
