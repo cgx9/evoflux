@@ -9,6 +9,8 @@ var Store = function () {
   this.changeEvent = "change";
   EventEmitter.defaultMaxListeners = 50;
   this.events = [];
+  this.triggerTo = {};//store接收action的方法时需要触发的事件。
+  
 }
 
 Store.prototype.__create__ = function(storeActions){ 
@@ -59,12 +61,12 @@ Store.prototype.__create__ = function(storeActions){
       if(storeAction.split('.').length>1){
         if(action === storeAction){
           this["actions"][action].call(this,args);
-          this.emit(this.changeEvent);
+          this.emit(this.triggerTo[storeAction] || this.changeEvent);//使用自定触发事件，否则默认change
         }
       }else{
         if(methodPrefix + storeAction === action){
           this["actions"][action].call(this,args);
-          this.emit(this.changeEvent);
+          this.emit(this.triggerTo[storeAction] || this.changeEvent);
         }
       }
     }
@@ -92,13 +94,18 @@ Store.prototype.__overrideEvent__ = function(eventEmit,methodPrefix){
     });
     eventEmit.prototype.on(eventName(event),cb);
   };
-  this.emit = function(event){
+  this.emit = this.trigger = function(event){
     //todo：判断当前model的前后值是否一致
     eventEmit.prototype.emit(eventName(event));
   };
   this.off = this.removeListener = function(event,cb){
     eventEmit.prototype.removeListener(eventName(event),cb);
   };
+  this.offAll = this.removeAllListeners = function(){
+    this.events.forEach(function(e){
+      eventEmit.prototype.removeAllListeners(eventName(e['event']));
+    }) 
+  }.bind(this);
 }
 
 module.exports = Store;

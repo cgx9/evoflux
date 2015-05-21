@@ -66,6 +66,9 @@ module.exports = Evoflux.createStore("demo",{
     this.data={
       title:"default title"
     }
+    this.triggerTo={
+      action2:"update"
+    }
   },
   addChangeListener:function(cb){
     this.on(this.changeEvent,function(){
@@ -75,6 +78,9 @@ module.exports = Evoflux.createStore("demo",{
   actions:{
     changeTitle:function(data){
       this.data.title = data.data;
+    },
+    action2:function(data){
+      this.data = data.data;
     }
   }
 })
@@ -89,4 +95,6 @@ actions:{
 ```
 
 this parameters "demo" must be same as createAction; actions.demo_changeTitle name must be  same as action value for createAction.  
-第一个参数是作为命名空间使用，需要与createAction一致。store的actions里的方法对应createAction里的方法，方法名必须与createAction里方法里的action的值一致。当调用action的方法时，stores里actions下与它值一样名称的方法也会触发执行。
+第一个参数是作为命名空间使用，需要与createAction一致。store的actions里的方法对应createAction里的方法，方法名必须与createAction里方法里的action的值一致。当调用action的方法时，stores里actions下与它值一样名称的方法也会触发执行。 
+actions里的方法默认会触发store的change事件，如果需要触发特定的事件，需要配置在this.triggerTo。key为action名，value为事件名。 勿在actions里的方法直接写this.emit或this.trigger。
+store里可用的事件方法：this.on(event,cb)、this.off(event,cb)、this.offAll()
