@@ -18,7 +18,10 @@ Router.prototype.__create__ = function(routers){
   var routerInit = R(routers).configure({notfound: notfoundRoute})//;.init(initRoute);
   if(!isServer){
     routerInit.query = function(key){
-      return queryString.parse(location.search)[key];
+      var search = location.search ? location.search.replace(/^\?/, '') : '';
+      var hash = location.hash ? location.hash.replace(/^#/, '') : '';
+      var queryStr = search || hash.split("?")[1];
+      return queryString.parse(queryStr)[key];
     }
   }
   
